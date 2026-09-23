@@ -147,8 +147,8 @@ Transform:
   m_GameObject: {fileID: 213416679}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -4.8, z: 0}
-  m_LocalScale: {x: 2, y: 10, z: 2}
+  m_LocalPosition: {x: 0, y: -9.8, z: 0}
+  m_LocalScale: {x: 2, y: 20, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1014590162}
@@ -591,7 +591,6 @@ MonoBehaviour:
   cube_entier: {fileID: 1014590161}
   cube_haut: {fileID: 2040506818}
   cube_bas: {fileID: 213416679}
-  radom_biome: 2
   herbematerial: {fileID: 2100000, guid: b4f197c341017644eb4028f5f3bdb8b3, type: 2}
   Terrematerial: {fileID: 2100000, guid: 8d42b42c0faab964996b966328705bad, type: 2}
   sablematerial: {fileID: 2100000, guid: 833d7f2e414487f42bee1d0dd0c9f411, type: 2}
@@ -621,7 +620,7 @@ Transform:
   m_GameObject: {fileID: 1014590161}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 50, z: 10}
+  m_LocalPosition: {x: 0, y: 100, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
