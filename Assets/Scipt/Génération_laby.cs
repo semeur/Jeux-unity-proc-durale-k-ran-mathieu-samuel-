@@ -1,17 +1,29 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Génération_laby : MonoBehaviour
 {
     public GameObject mur;
+     
 
     private void Start()
     {
-        for (int i = 0; i < 1000; i+=110)
+        List<GameObject> wall = new List<GameObject>();
+        for (float x = 0; x < 1000; x+=94.5f)
         {
-            for (int j = 0; j < 1000; j+=110)
+            for (float y = 0; y < 1000; y+=94.5f)
             {
-                Instantiate(mur, new Vector3(i, 0, j), Quaternion.identity);
+                GameObject new_wall = Instantiate(mur, new Vector3(x, 0, y), Quaternion.identity);
+                wall.Add(new_wall);
             }
         }
+
+        List<GameObject> chemin_actuel = new List<GameObject>();
+        List<GameObject> chemin_complete = new List<GameObject>();
+
+        chemin_actuel.Add(wall[Random.Range(0, wall.Count)]);
+        chemin_actuel[0].transform.Translate(Vector3.up * 100);
+
     }
 }
