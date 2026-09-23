@@ -396,9 +396,12 @@ MonoBehaviour:
   back: 274
   left: 276
   right: 275
+  Jump: 32
+  Sprint: 304
   respawn: 114
   verif: 1
-  speed: 12
+  use_Jump: 0
+  speed: 4
   mouvement: {x: 0, y: 0, z: 0}
 --- !u!143 &1727309912
 CharacterController:
