@@ -4,26 +4,43 @@ using UnityEngine;
 
 public class Génération_laby : MonoBehaviour
 {
-    public GameObject mur;
-     
+    [SerializeField]
+    private GameObject mur_o;
 
-    private void Start()
+    [SerializeField]
+    private GameObject mur_e;
+
+    [SerializeField]
+    private GameObject mur_n;
+    
+    [SerializeField]
+    private GameObject mur_s;
+
+    [SerializeField]
+    private GameObject non_visitee;
+
+    public bool is_visited { get; private set; }
+
+    public void Visit()
     {
-        List<GameObject> wall = new List<GameObject>();
-        for (float x = 0; x < 1000; x+=94.5f)
-        {
-            for (float y = 0; y < 1000; y+=94.5f)
-            {
-                GameObject new_wall = Instantiate(mur, new Vector3(x, 0, y), Quaternion.identity);
-                wall.Add(new_wall);
-            }
-        }
+        is_visited = true;
+        non_visitee.SetActive(false);
+    }
 
-        List<GameObject> chemin_actuel = new List<GameObject>();
-        List<GameObject> chemin_complete = new List<GameObject>();
-
-        chemin_actuel.Add(wall[Random.Range(0, wall.Count)]);
-        chemin_actuel[0].transform.Translate(Vector3.up * 100);
-
+    public void erase_mur_o()
+    {
+        mur_o.SetActive(false);
+    }
+    public void erase_mur_e()
+    {
+        mur_e.SetActive(false);
+    }
+    public void erase_mur_n()
+    {
+        mur_n.SetActive(false);
+    }
+    public void erase_mur_s()
+    {
+        mur_s.SetActive(false);
     }
 }
