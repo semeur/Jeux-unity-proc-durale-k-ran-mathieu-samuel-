@@ -1,11 +1,8 @@
-using NUnit.Framework;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Génération_laby : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject mur_o;
+    public GameObject mur;
 
     [SerializeField]
     private GameObject mur_e;
@@ -23,24 +20,12 @@ public class Génération_laby : MonoBehaviour
 
     public void Visit()
     {
-        is_visited = true;
-        non_visitee.SetActive(false);
-    }
-
-    public void erase_mur_o()
-    {
-        mur_o.SetActive(false);
-    }
-    public void erase_mur_e()
-    {
-        mur_e.SetActive(false);
-    }
-    public void erase_mur_n()
-    {
-        mur_n.SetActive(false);
-    }
-    public void erase_mur_s()
-    {
-        mur_s.SetActive(false);
+        for (int i = 0; i < 1000; i+=110)
+        {
+            for (int j = 0; j < 1000; j+=110)
+            {
+                Instantiate(mur, new Vector3(i, 0, j), Quaternion.identity);
+            }
+        }
     }
 }
