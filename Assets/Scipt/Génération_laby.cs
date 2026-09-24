@@ -15,8 +15,10 @@ public class Génération_laby : MonoBehaviour
 
     IEnumerator Gene_laby(Vector2Int taille)
     {
+        // liste des nodes
         List<Controlbase> nodes = new List<Controlbase>();
 
+        //remplit la liste
         for (int x = 0; x < taille.x; x++)
         {
             for (int y = 0; y < taille.y; y++)
@@ -29,6 +31,7 @@ public class Génération_laby : MonoBehaviour
             }
         }
 
+        // liste du chemin actuel et des chemins déjà visitée
         List<Controlbase> chemin_actuel = new List<Controlbase>();
         List<Controlbase> complete_nodes = new List<Controlbase>();
 
@@ -53,7 +56,7 @@ public class Génération_laby : MonoBehaviour
                     direc_poss.Add(3);
                     pro_node_poss.Add(actuel_index + taille.y);
                 }
-                
+
             }
 
             //Ouest
@@ -123,7 +126,40 @@ public class Génération_laby : MonoBehaviour
                 chemin_actuel.RemoveAt(chemin_actuel.Count - 1);
             }
 
-            yield return new WaitForSeconds(0.05f);
+
+            int h_b_g_d = Random.Range(0, 2);
+
+            //nord ou sud aléatoire
+            int h_b = 0;
+            //ouest ou est
+            int g_d = 0;
+
+            if (h_b_g_d == 0)
+            {
+                h_b = Random.Range(0, 2);
+                g_d = Random.Range(0, taille.x);
+
+                if (h_b == 0)
+                {
+                    nodes[g_d * 10].Remove_wall(2);
+                }
+                else
+                {
+                    nodes[g_d * 10 + 9].Remove_wall(1);
+                }
+            }
+            if (h_b_g_d == 1)
+            {
+                h_b = Random.Range(0, taille.y);
+                g_d = Random.Range(0, 2);
+
+                if (g_d == 0)
+                {
+                   //nodes[h_b]()
+                }
+            }
+
+            yield return null;
         }
 
     }
