@@ -3,7 +3,9 @@ using UnityEngine;
 public class spawner : MonoBehaviour
 {
     //pour ajouter les differente partie des bloc
-    public GameObject cube_entier;
+    public GameObject cube_plaine;
+    public GameObject cube_desert;
+    public GameObject cube_montagne;
     [SerializeField] int radom_biome;
 
     //pour generer le choix de biome
@@ -14,20 +16,20 @@ public class spawner : MonoBehaviour
     {
         int[,] Grille ;
         //va réaliser l'action a l'intérieur en boucle temps que x et z ne sont pas = a 100 , donc il va crée 400 bloc au total
-        for (float x = 0f; x < 200; x++)
+        for (float x = 0f; x < 400; x++)
         {
-            for (float z = 0f; z < 200; z++)
+            for (float z = 0f; z < 400; z++)
             {
 
                 //lance choix du biome au hasard parmis 3 option , 0 = plaine || 1 = desert || 2 = montagne
-                radom_biome = Random.Range(0, 3);
+                //radom_biome = Random.Range(0, 3);
                 
                 if (radom_biome == 0)//faire apparaitre la partie haute de l'herbe et la teindre en vert et faire apparaitre la partie basse de l'herbe et la teindre en marron
                 { 
                   
                     float PerlinY = Mathf.PerlinNoise(x * 0.05f, z * 0.05f) * 3;
-                    GameObject bloc = Instantiate(cube_entier, new Vector3(z * 2, PerlinY, x * 2), Quaternion.identity);
-                    bloc.GetComponent<bloc>().changer_en_hebe();
+                    Instantiate(cube_plaine, new Vector3(z * 2, PerlinY, x * 2), Quaternion.identity);
+                    //cube.GetComponent<bloc>().changer_en_hebe();
                 
                 }
 
@@ -35,8 +37,8 @@ public class spawner : MonoBehaviour
                 {
 
                     float PerlinY = Mathf.PerlinNoise(x * 0.05f, z * 0.05f) * -10;
-                    GameObject bloc = Instantiate(cube_entier, new Vector3(z * 2, PerlinY, x * 2), Quaternion.identity);
-                    bloc.GetComponent<bloc>().changer_en_sable();
+                    Instantiate(cube_desert, new Vector3(z * 2, PerlinY, x * 2), Quaternion.identity);
+                    //bloc.GetComponent<bloc>().changer_en_sable();
 
                 }
 
@@ -44,8 +46,8 @@ public class spawner : MonoBehaviour
                 {
                     
                     float PerlinY = Mathf.PerlinNoise(x * 0.05f, z * 0.05f) * 50;
-                    GameObject bloc = Instantiate(cube_entier, new Vector3(z * 2, PerlinY, x * 2), Quaternion.identity);
-                    bloc.GetComponent<bloc>().changer_en_roche();
+                    Instantiate(cube_montagne, new Vector3(z * 2, PerlinY, x * 2), Quaternion.identity);
+                    //bloc.GetComponent<bloc>().changer_en_roche();
                 
                 }
                 
