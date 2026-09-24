@@ -13,6 +13,7 @@ public class Génération_laby : MonoBehaviour
         StartCoroutine(Gene_laby(new Vector2Int(10, 10)));
     }
 
+   
     IEnumerator Gene_laby(Vector2Int taille)
     {
         // liste des nodes
@@ -38,6 +39,7 @@ public class Génération_laby : MonoBehaviour
         chemin_actuel.Add(nodes[Random.Range(0, nodes.Count)]);
         chemin_actuel[0].set_state(state.Actuel);
 
+        //boucle de la création du laby
         while (complete_nodes.Count < nodes.Count)
         {
             List<int> pro_node_poss = new List<int>();
@@ -90,11 +92,13 @@ public class Génération_laby : MonoBehaviour
                 }
             }
 
+            //si il y a un chemin disponible  on en choisit un
             if (direc_poss.Count > 0)
             {
                 int direct_choisi = Random.Range(0, direc_poss.Count);
                 Controlbase node_choisi = nodes[pro_node_poss[direct_choisi]];
 
+                //on avance vers le node choisit en effçant les murs sur le chemin
                 switch (direc_poss[direct_choisi])
                 {
                     case 1:
@@ -121,47 +125,60 @@ public class Génération_laby : MonoBehaviour
 
             else
             {
+                //remplit les chemins complets
                 complete_nodes.Add(chemin_actuel[chemin_actuel.Count - 1]);
                 chemin_actuel[chemin_actuel.Count - 1].set_state(state.Complete);
                 chemin_actuel.RemoveAt(chemin_actuel.Count - 1);
             }
-
-
-            int h_b_g_d = Random.Range(0, 2);
-
-            //nord ou sud aléatoire
-            int h_b = 0;
-            //ouest ou est
-            int g_d = 0;
-
-            if (h_b_g_d == 0)
-            {
-                h_b = Random.Range(0, 2);
-                g_d = Random.Range(0, taille.x);
-
-                if (h_b == 0)
-                {
-                    nodes[g_d * 10].Remove_wall(2);
-                }
-                else
-                {
-                    nodes[g_d * 10 + 9].Remove_wall(1);
-                }
-            }
-            if (h_b_g_d == 1)
-            {
-                h_b = Random.Range(0, taille.y);
-                g_d = Random.Range(0, 2);
-
-                if (g_d == 0)
-                {
-                   //nodes[h_b]()
-                }
-            }
-
             yield return null;
         }
 
+
+        //Ouvertur de la sortie
+
+        int h_b_g_d = Random.Range(0, 2);
+
+        //nord ou sud aléatoire
+        int h_b = 0;
+
+        //ouest ou est
+        int g_d = 0;
+
+        //haut bas ou gauche droite
+        if (h_b_g_d == 0)
+        {
+            h_b = Random.Range(0, 2);
+            g_d = Random.Range(0, taille.x);
+
+            switch (h_b)
+            {
+                case 0:
+                    nodes[g_d * 10].Remove_wall(1);
+                    break;
+
+                case 1:
+                    nodes[g_d * 10 + 9].Remove_wall(0);
+                    break;
+
+            }
+
+        }
+        if (h_b_g_d == 1)
+        {
+            h_b = Random.Range(0, taille.y);
+            g_d = Random.Range(0, 2);
+
+            switch (g_d)
+            {
+                case 0:
+                    nodes[h_b].Remove_wall(3);
+                    break;
+
+                case 1:
+                    nodes[90 + h_b].Remove_wall(2);
+                    break;
+            }  
+        }
     }
 }
 
