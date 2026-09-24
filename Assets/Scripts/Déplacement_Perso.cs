@@ -10,11 +10,9 @@ public class Déplacement_Perso : MonoBehaviour
     public KeyCode back = KeyCode.DownArrow;
     public KeyCode left = KeyCode.LeftArrow;
     public KeyCode right = KeyCode.RightArrow;
-    public KeyCode Jump = KeyCode.Space;
     public KeyCode Sprint = KeyCode.LeftShift; //print en appuyant sur left shift
     public KeyCode respawn = KeyCode.R; //objectif de cette ligne est de faire respawn le personnage a des coordonnées précis
-    public bool verif = true;
-    public bool use_Jump = false;
+    public bool verif = false;
     MeshRenderer Cube; //La meshrender du Cube
 
     public float speed = 5.5f; //vitesse de déplacement du personnage
@@ -27,6 +25,7 @@ public class Déplacement_Perso : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        speed = 5.5f;
         float deltaTime = Time.deltaTime; //représente le temps écoulé depuis la frame d'avant.
         float deltaMove = speed * deltaTime; // un calcul avec ma vitesse à la l.11 et avec le temps écoulé depuis la frame d'avant.
 
@@ -36,9 +35,7 @@ public class Déplacement_Perso : MonoBehaviour
         if (Input.GetKey(forward))
         {
             mouvement += Vector3.forward;
-
         }
-
         if (Input.GetKey(back))
         {
             mouvement += Vector3.back;
@@ -52,10 +49,9 @@ public class Déplacement_Perso : MonoBehaviour
         {
             mouvement += Vector3.right;
         }
-        if (Input.GetKey(Sprint)) // A corriger demain le 23 Sept
+        if (Input.GetKey(Sprint) && (Input.GetKey(forward) || Input.GetKey(back) || Input.GetKey(left) || Input.GetKey(right)))
         {
-            mouvement += Vector3.forward;
-            speed = speed * 1.1f; 
+            speed = speed * 8.5f;
         }
         if (verif == false)
         {
@@ -66,29 +62,6 @@ public class Déplacement_Perso : MonoBehaviour
         if (Input.GetKey(respawn) && transform.position.y < 0.5f)
         {
             transform.position = new Vector3(1f, 0.5f, 1f);
-        }
-
-        if (Input.GetKey(Jump) && use_Jump == false) //process 
-        {
-            use_Jump = false;    
-            print("Je saute");
-            bool jump = false;
-            if (jump == false)
-            {
-                nbr_frame += 1;
-                Vector3 saut = transform.position;
-                saut.y += 1;
-                transform.position = saut;
-                print("Nombre de frame" + nbr_frame);
-                if (nbr_frame == 10)
-                {
-                    jump = true;
-                    transform.position = new Vector3(1f, 0.5f, 1f);
-                    use_Jump = false;
-                }
-            }
-
-
         }
 
     }
