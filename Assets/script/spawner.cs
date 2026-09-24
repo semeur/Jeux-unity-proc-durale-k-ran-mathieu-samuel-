@@ -12,6 +12,7 @@ public class spawner : MonoBehaviour
 
     void Start()
     {
+        int[,] Grille ;
         //va réaliser l'action a l'intérieur en boucle temps que x et z ne sont pas = a 100 , donc il va crée 400 bloc au total
         for (float x = 0f; x < 200; x++)
         {
