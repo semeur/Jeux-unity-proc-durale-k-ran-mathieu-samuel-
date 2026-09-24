@@ -130,7 +130,8 @@ GameObject:
   - component: {fileID: 237702303}
   - component: {fileID: 237702302}
   - component: {fileID: 237702301}
-  m_Layer: 0
+  - component: {fileID: 237702304}
+  m_Layer: 3
   m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -213,6 +214,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &237702304
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237702300}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &379962250
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,6 +374,7 @@ GameObject:
   - component: {fileID: 1224053229}
   - component: {fileID: 1224053228}
   - component: {fileID: 1224053227}
+  - component: {fileID: 1224053231}
   m_Layer: 3
   m_Name: sol
   m_TagString: Untagged
@@ -452,6 +475,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1224053231
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1224053226}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 0.2, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1667407054
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,8 +621,8 @@ GameObject:
   - component: {fileID: 1727309914}
   - component: {fileID: 1727309913}
   - component: {fileID: 1727309912}
-  - component: {fileID: 1727309918}
   - component: {fileID: 1727309919}
+  - component: {fileID: 1727309920}
   m_Layer: 0
   m_Name: Le_Personnage
   m_TagString: Untagged
@@ -698,13 +742,28 @@ Transform:
   m_GameObject: {fileID: 1727309910}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0.48, z: 1}
+  m_LocalPosition: {x: 1, y: 0.5, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1727309918
+--- !u!114 &1727309919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1727309910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e70020c124099974e9decdfa2658908f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Test_gravity
+  jump: 32
+  verif: 0
+  isJumping: 0
+--- !u!114 &1727309920
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -721,25 +780,11 @@ MonoBehaviour:
   back: 274
   left: 276
   right: 275
-  Sprint: 304
+  sprint: 304
   respawn: 114
-  speed: 5.5
+  speedshift: 2.8
+  speed: 1.2
   mouvement: {x: 0, y: 0, z: 0}
---- !u!114 &1727309919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1727309910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e70020c124099974e9decdfa2658908f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Test_gravity
-  jump: 32
-  verif: 0
-  isJumping: 0
 --- !u!1 &1729040031
 GameObject:
   m_ObjectHideFlags: 0
