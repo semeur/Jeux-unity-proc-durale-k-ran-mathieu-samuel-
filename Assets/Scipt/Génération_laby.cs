@@ -24,7 +24,7 @@ public class Génération_laby : MonoBehaviour
         {
             for (int y = 0; y < taille.y; y++)
             {
-                Vector3 nod_pos = new Vector3(x * 100 - 450, 0, y * 100 - 450);
+                Vector3 nod_pos = new Vector3(x * 50 - 225, 0, y * 50 - 225);
                 Controlbase new_node = Instantiate(prefab, nod_pos, Quaternion.identity);
                 nodes.Add(new_node);
 
