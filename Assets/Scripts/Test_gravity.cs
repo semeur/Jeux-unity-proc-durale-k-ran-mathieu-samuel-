@@ -5,21 +5,24 @@ public class Test_gravity : MonoBehaviour
     private float velocityY = 0;
     private float gravity = -5;
     public KeyCode jump = KeyCode.Space;
-    public bool verif = true; // vérfie i le perso touche le sol ou pas
+    public bool verif ; // vérfie i le perso touche le sol ou pas
     //public bool sol_toucher = true;
+    public bool isJumping = false;
 
     void Start()
     {
-
+        verif = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(jump) && verif == true)
+        if (Input.GetKeyDown(jump) && verif == true )
         {
-            velocityY = 4;
+            velocityY = 10;
             verif = false;
+                isJumping = true;
+            Debug.Log("jump");
         }
         velocityY += gravity * Time.deltaTime;
         transform.position += new Vector3(0, velocityY, 0) * Time.deltaTime;
@@ -31,12 +34,32 @@ public class Test_gravity : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        verif = true;
-        print("Touche le sol");
+        if (other.gameObject.layer == LayerMask.NameToLayer("Sol"))
+        {
+            verif = true;
+            print("TriggerEnter");
+            isJumping = false;
+        }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Sol")&&isJumping==false)
+        {
+           // verif = true;
+            //Debug.Log("TriggerStay " + other.gameObject.name);
+
+        }
+
+
     }
     private void OnTriggerExit(Collider other)
     {
-        verif = false;
+        if (other.gameObject.layer == LayerMask.NameToLayer("Sol"))
+        {
+            verif = false;
+            Debug.Log("TriggerExit");
+        }
     }
+    
 }
 
