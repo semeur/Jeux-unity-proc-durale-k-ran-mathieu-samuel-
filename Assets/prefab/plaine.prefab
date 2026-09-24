@@ -121,7 +121,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3151103842858133807}
-  - component: {fileID: 6445263646787698021}
   m_Layer: 0
   m_Name: plaine
   m_TagString: Untagged
@@ -146,24 +145,6 @@ Transform:
   - {fileID: 3784822986219735774}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6445263646787698021
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7082226653721449194}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d8387356bb936046a0683dcb90c26d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::bloc
-  cube_haut: {fileID: 1910522994438913252}
-  cube_bas: {fileID: 7408676617816722458}
-  herbematerial: {fileID: 2100000, guid: b6595b6179be5544d889b19116366ad5, type: 2}
-  Terrematerial: {fileID: 2100000, guid: 8d42b42c0faab964996b966328705bad, type: 2}
-  sablematerial: {fileID: 2100000, guid: 833d7f2e414487f42bee1d0dd0c9f411, type: 2}
-  rochematerial: {fileID: 2100000, guid: 132871db8aa617547b139a984c133f9c, type: 2}
 --- !u!1 &7408676617816722458
 GameObject:
   m_ObjectHideFlags: 0

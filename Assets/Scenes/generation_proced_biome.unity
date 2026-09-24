@@ -519,6 +519,7 @@ GameObject:
   m_Component:
   - component: {fileID: 843079166}
   - component: {fileID: 843079167}
+  - component: {fileID: 843079168}
   m_Layer: 0
   m_Name: spawner sol
   m_TagString: Untagged
@@ -548,7 +549,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 843079165}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d82950f6443ceb489665ebbdf3e84f9, type: 3}
   m_Name: 
@@ -557,6 +558,22 @@ MonoBehaviour:
   cube_desert: {fileID: 1706719227167347961, guid: 901bffac0eda7834185457045fa83ab5, type: 3}
   cube_montagne: {fileID: 7297809464294743155, guid: ff4b6f22d9cde254ba01b343ecad41d1, type: 3}
   radom_biome: 2
+--- !u!114 &843079168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843079165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d8387356bb936046a0683dcb90c26d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::bloc
+  cube_plaine: {fileID: 7082226653721449194, guid: e6f54c3262bc68a43aec4cb5c4c16426, type: 3}
+  cube_desert: {fileID: 1706719227167347961, guid: 901bffac0eda7834185457045fa83ab5, type: 3}
+  cube_montagne: {fileID: 7297809464294743155, guid: ff4b6f22d9cde254ba01b343ecad41d1, type: 3}
+  taille: 100
 --- !u!1001 &968547981
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -624,6 +641,10 @@ PrefabInstance:
     - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: MoveSpeed
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: JumpHeight
+      value: 2.4
       objectReference: {fileID: 0}
     - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: SprintSpeed
