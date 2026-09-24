@@ -407,7 +407,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -484,7 +484,7 @@ GameObject:
   - component: {fileID: 1727309913}
   - component: {fileID: 1727309912}
   - component: {fileID: 1727309918}
-  - component: {fileID: 1727309917}
+  - component: {fileID: 1727309919}
   m_Layer: 0
   m_Name: Le_Personnage
   m_TagString: Untagged
@@ -604,14 +604,14 @@ Transform:
   m_GameObject: {fileID: 1727309910}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0.5, z: 1}
+  m_LocalPosition: {x: 1, y: 0.48, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 972170286}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1727309917
+--- !u!114 &1727309918
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -633,7 +633,7 @@ MonoBehaviour:
   verif: 0
   speed: 5.5
   mouvement: {x: 0, y: 0, z: 0}
---- !u!114 &1727309918
+--- !u!114 &1727309919
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -645,7 +645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e70020c124099974e9decdfa2658908f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Test_gravity
-  Jump: 32
+  jump: 32
   verif: 1
 --- !u!1 &1729040031
 GameObject:
@@ -890,8 +890,6 @@ GameObject:
   - component: {fileID: 1945691577}
   - component: {fileID: 1945691576}
   - component: {fileID: 1945691575}
-  - component: {fileID: 1945691579}
-  - component: {fileID: 1945691580}
   m_Layer: 0
   m_Name: Testeur
   m_TagString: Untagged
@@ -993,42 +991,6 @@ Transform:
   - {fileID: 1667407055}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1945691579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1945691573}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e70020c124099974e9decdfa2658908f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Test_gravity
-  Jump: 32
-  verif: 1
---- !u!114 &1945691580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1945691573}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f886b8846203884a883807e4b32869c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: "Assembly-CSharp::D\xE9placement_Perso"
-  PlayerMove: {fileID: 0}
-  forward: 273
-  back: 274
-  left: 276
-  right: 275
-  Sprint: 304
-  respawn: 114
-  verif: 0
-  speed: 5.5
-  mouvement: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

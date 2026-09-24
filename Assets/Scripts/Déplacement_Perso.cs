@@ -20,6 +20,7 @@ public class Déplacement_Perso : MonoBehaviour
     private int nbr_frame = 0;
     void Start()
     {
+
     }
 
     // Update is called once per frame
