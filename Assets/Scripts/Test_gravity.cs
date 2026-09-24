@@ -37,7 +37,6 @@ public class Test_gravity : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Sol"))
         {
             verif = true;
-            print("TriggerEnter");
             isJumping = false;
         }
     }
@@ -45,9 +44,7 @@ public class Test_gravity : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Sol")&&isJumping==false)
         {
-           // verif = true;
-            //Debug.Log("TriggerStay " + other.gameObject.name);
-
+        
         }
 
 
