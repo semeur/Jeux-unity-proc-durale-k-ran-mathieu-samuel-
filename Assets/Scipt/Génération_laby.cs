@@ -11,7 +11,7 @@ public class Génération_laby : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(Gene_laby(new Vector2Int(15, 15)));
+        StartCoroutine(Gene_laby(new Vector2Int(7, 7)));
     }
 
 
@@ -27,7 +27,7 @@ public class Génération_laby : MonoBehaviour
         {
             for (int y = 0; y < taille.y; y++)
             {
-                Vector3 nod_pos = new Vector3(x * 50 - 350, 0, y * 50 - 350);
+                Vector3 nod_pos = new Vector3(x * 50 + 65, 0, y * 50 + 65);
                 Controlbase new_node = Instantiate(prefab, nod_pos, Quaternion.identity);
                 if (Random.Range(0, 10)==0 && araignee > 0 && nod_pos.x != 0 && nod_pos.z != 0)
                 {
@@ -161,7 +161,7 @@ public class Génération_laby : MonoBehaviour
             switch (h_b)
             {
                 case 0:
-                    nodes[g_d * 10].Remove_wall(1);
+                    nodes[g_d ].Remove_wall(1);
                     break;
 
                 case 1:
@@ -183,7 +183,7 @@ public class Génération_laby : MonoBehaviour
                     break;
 
                 case 1:
-                    nodes[90 + h_b].Remove_wall(2);
+                    nodes[70 + h_b].Remove_wall(2);
                     break;
             }  
         }

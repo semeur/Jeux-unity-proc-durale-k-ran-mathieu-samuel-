@@ -6,11 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-<<<<<<< HEAD
     path: Assets/Scenes/generation_proced_biome.unity
-=======
-    path: Assets/Scenes/Labyrinthe.unity
->>>>>>> MathB
     guid: 99c9720ab356a0642a771bea13969a05
-  m_configObjects:
-    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  - enabled: 1
+    path: Assets/Scenes/Labyrinthe.unity
+    guid: 3b75f6fad51cd2147804d9f039a913d6
+  m_configObjects: {}

@@ -55,7 +55,7 @@ public class Déplacement_Perso : MonoBehaviour
         PlayerMove.Move(mouvement * deltaMove);
         if (Input.GetKey(respawn) && transform.position.y < 1f)
         {
-            transform.position = new Vector3(1f, 1f, 1f);
+            transform.position = new Vector3(198.0226f, 5f, 176.1303f);
         }
 
     }
