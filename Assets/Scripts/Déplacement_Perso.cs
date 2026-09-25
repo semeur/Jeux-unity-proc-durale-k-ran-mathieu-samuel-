@@ -25,27 +25,27 @@ public class Déplacement_Perso : MonoBehaviour
     void Update()
     {
         speed = 5.5f;
-        float deltaTime = Time.deltaTime; //représente le temps écoulé depuis la frame d'avant.
-
+        float deltaTime = Time.deltaTime; //représente le temps écoulé depuis la frame d'avant
         mouvement = Vector3.zero;
 
         if (Input.GetKey(forward))
         {
-            mouvement += Vector3.forward;
+            mouvement += transform.forward; //transform.forward me permet d'aller dans la direction ou regarde mon personnage
         }
         if (Input.GetKey(back))
         {
-            mouvement += Vector3.back;
+            mouvement += -transform.forward; // inverse de l'avant donc l'arrière // j'ai mis sa car maintenant sa me permet d'avancer selon mon curseur
         }
         if (Input.GetKey(left))
         {
-            mouvement += Vector3.left;
+            mouvement += -transform.right; //inverse de droite donc gauche
         }
 
         if (Input.GetKey(right))
         {
-            mouvement += Vector3.right;
+            mouvement += transform.right;
         }
+        mouvement = mouvement.normalized; // j'ai mis sa car sa me permet d'éviter d'avancer plus vite en diagonale
         if ((Input.GetKey(sprint) && other_verif.isJumping == false) && (Input.GetKey(forward) || Input.GetKey(back) || Input.GetKey(left) || Input.GetKey(right)))
         {
             speed = speed * speedshift;
