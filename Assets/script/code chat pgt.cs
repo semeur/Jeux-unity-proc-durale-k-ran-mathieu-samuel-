@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class code_test : MonoBehaviour
 {
-    // ============================================================
-    // PREFABS
-    // ============================================================
+
+    // les PR
+
 
     public GameObject cube_plaine;
     public GameObject cube_desert;
