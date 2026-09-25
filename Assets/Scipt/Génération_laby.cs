@@ -7,25 +7,33 @@ using UnityEngine;
 public class Génération_laby : MonoBehaviour
 {
     [SerializeField] Controlbase prefab;
+    public GameObject monstre;
 
     private void Start()
     {
-        StartCoroutine(Gene_laby(new Vector2Int(10, 10)));
+        StartCoroutine(Gene_laby(new Vector2Int(15, 15)));
     }
+
 
    
     IEnumerator Gene_laby(Vector2Int taille)
     {
         // liste des nodes
         List<Controlbase> nodes = new List<Controlbase>();
+        int araignee = 3;
 
         //remplit la liste
         for (int x = 0; x < taille.x; x++)
         {
             for (int y = 0; y < taille.y; y++)
             {
-                Vector3 nod_pos = new Vector3(x * 50 - 225, 0, y * 50 - 225);
+                Vector3 nod_pos = new Vector3(x * 50 - 350, 0, y * 50 - 350);
                 Controlbase new_node = Instantiate(prefab, nod_pos, Quaternion.identity);
+                if (Random.Range(0, 10)==0 && araignee > 0 && nod_pos.x != 0 && nod_pos.z != 0)
+                {
+                    Instantiate(monstre, new Vector3(nod_pos.x, 3, nod_pos.z), Quaternion.identity);
+                    araignee -= 1;
+                }
                 nodes.Add(new_node);
 
                 yield return null;
@@ -132,7 +140,7 @@ public class Génération_laby : MonoBehaviour
             }
             yield return null;
         }
-
+        
 
         //Ouvertur de la sortie
 
