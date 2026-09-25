@@ -25,8 +25,6 @@ public class Déplacement_Perso : MonoBehaviour
     {
         speed = 5.5f;
         float deltaTime = Time.deltaTime; //représente le temps écoulé depuis la frame d'avant.
-        // un calcul avec ma vitesse à la l.11 et avec le temps écoulé depuis la frame d'avant.
-
 
         mouvement = Vector3.zero;
 
@@ -54,9 +52,9 @@ public class Déplacement_Perso : MonoBehaviour
         float deltaMove = speed * deltaTime; // un calcul avec ma vitesse à la l.11 et avec le temps écoulé depuis la frame d'avant.
 
         PlayerMove.Move(mouvement * deltaMove);
-        if (Input.GetKey(respawn) && transform.position.y < 0.5f)
+        if (Input.GetKey(respawn) && transform.position.y < 1f)
         {
-            transform.position = new Vector3(1f, 0.5f, 1f);
+            transform.position = new Vector3(1f, 1f, 1f);
         }
 
     }

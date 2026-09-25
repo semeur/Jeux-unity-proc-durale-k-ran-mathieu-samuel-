@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Test_gravity : MonoBehaviour
+public class Méca_de_saut : MonoBehaviour
 {
     private float velocityY = 0;
     private float gravity = -5;
@@ -19,7 +19,7 @@ public class Test_gravity : MonoBehaviour
     {
         if (Input.GetKeyDown(jump) && verif == true )
         {
-            velocityY = 10;
+            velocityY = 15;
             verif = false;
                 isJumping = true;
             Debug.Log("jump");
