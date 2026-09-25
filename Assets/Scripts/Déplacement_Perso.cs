@@ -10,11 +10,12 @@ public class Déplacement_Perso : MonoBehaviour
     public KeyCode back = KeyCode.DownArrow;
     public KeyCode left = KeyCode.LeftArrow;
     public KeyCode right = KeyCode.RightArrow;
-    public KeyCode sprint = KeyCode.LeftShift; //print en appuyant sur left shift
+    public KeyCode sprint = KeyCode.RightShift; //print en appuyant sur Right shift
     public KeyCode respawn = KeyCode.R; //objectif de cette ligne est de faire respawn le personnage a des coordonnées précis
     public float speedshift = 2.8f;
     public float speed = 5.5f; //vitesse de déplacement du personnage
     public Vector3 mouvement = Vector3.zero; //différent mouvement que le joueur peut faire
+    public Meca_de_saut other_verif;
     void Start()
     {
 
@@ -45,7 +46,7 @@ public class Déplacement_Perso : MonoBehaviour
         {
             mouvement += Vector3.right;
         }
-        if (Input.GetKey(sprint) && (Input.GetKey(forward) || Input.GetKey(back) || Input.GetKey(left) || Input.GetKey(right)))
+        if ((Input.GetKey(sprint) && other_verif.isJumping == false) && (Input.GetKey(forward) || Input.GetKey(back) || Input.GetKey(left) || Input.GetKey(right)))
         {
             speed = speed * speedshift;
         }

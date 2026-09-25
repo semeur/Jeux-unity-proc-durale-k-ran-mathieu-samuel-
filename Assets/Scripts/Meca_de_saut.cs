@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class Méca_de_saut : MonoBehaviour
+public class Meca_de_saut : MonoBehaviour
 {
     private float velocityY = 0;
-    private float gravity = -5;
+    private float gravity = -25;
     public KeyCode jump = KeyCode.Space;
     public bool verif ; // vérfie i le perso touche le sol ou pas
     //public bool sol_toucher = true;
@@ -19,7 +19,7 @@ public class Méca_de_saut : MonoBehaviour
     {
         if (Input.GetKeyDown(jump) && verif == true )
         {
-            velocityY = 15;
+            velocityY = 35;
             verif = false;
                 isJumping = true;
             Debug.Log("jump");
