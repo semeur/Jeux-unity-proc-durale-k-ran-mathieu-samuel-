@@ -8,16 +8,38 @@ public class code_test : MonoBehaviour
     public GameObject cube_desert;
     public GameObject cube_montagne;
 
+
+
+    //normalement crée une régle des 
+    List<int>[] regles = new List<int>[3];
+
     // Taille de la grille
     [SerializeField] int taille = 50;
 
     // Une case de la grille
     private List<int>[,] grille;
 
+    //ce système pas terminer devait permetre de definir un nombre minimum et maximum de cube par chunk
+    [SerializeField] int nb_min_plaine = 10;
+    [SerializeField] int nb_min_desert = 10;
+    [SerializeField] int nb_min_monragne = 5;
+
+    [SerializeField] int nb_max_plaine = 10;
+    [SerializeField] int nb_max_desert = 10;
+    [SerializeField] int nb_max_monragne = 5;
+
+    //ce système pas terminer devait permetre de d'augmenter le 
+    [SerializeField] float augement_meme_biome = 1.5f;
     void Start()
     {
         //definir la taille de la grille a la taille definit dans l'édteur
         grille = new List<int>[taille, taille];
+
+        //definit ce qui peut spawn a coter de quoi mais bug 
+        regles[0] = new List<int> { 0, 1, 2 }; // Plaine
+        regles[1] = new List<int> { 0, 1 };    // Désert
+        regles[2] = new List<int> { 0, 2 };    // Montagne
+
 
         // Chaque case peut commencer avec les 3 biomes
         for (int x = 0; x < taille; x++)
@@ -28,7 +50,7 @@ public class code_test : MonoBehaviour
             }
         }
 
-        // Génération de monde normalement
+        // crée une selection de posibiliter de bloc
         while (true)
         {
             Vector2Int caseChoisie = trouver_case_moins_possibilites();
@@ -115,8 +137,21 @@ public class code_test : MonoBehaviour
     void appliquer_regle(int x, int z, int biomeVoisin)
     {
         List<int> possibilites = grille[x, z];
+        // Récupère les biomes autorisés autour du biome actuel
+        List<int> biomesOkspawn = regles[biomeVoisin];
 
+        // regarde les autre possibiliter
+        for (int p = possibilites.Count - 1; p >= 0; p--)
+        {
+            // Si le biome il est pas compatible
+            if (!biomesOkspawn.Contains(possibilites[p]))
+            {
+                // On le retire
+                possibilites.RemoveAt(p);
+            }
+        }
     }
+
 
 
     // crée les bloc
@@ -129,28 +164,28 @@ public class code_test : MonoBehaviour
                 int biome = grille[x, z][0];
 
                 float PerlinY = Mathf.PerlinNoise(
-                    x * 0.05f,
-                    z * 0.05f
+                    x * 0.1f,
+                    z * 0.1f
                 );
 
                 GameObject prefab = null;
 
-                if (biome == 0)
+                if (biome == 0 )
                 {
                     // Plaine
-                    PerlinY *= 3f;
+                    PerlinY *= 2.5f;
                     prefab = cube_plaine;
                 }
                 else if (biome == 1)
                 {
                     // Désert
-                    PerlinY *= -10f;
+                    PerlinY *= -1.2f;
                     prefab = cube_desert;
                 }
                 else if (biome == 2)
                 {
                     // Montagne
-                    PerlinY *= 50f;
+                    PerlinY *= 6.8f;
                     prefab = cube_montagne;
                 }
                 
