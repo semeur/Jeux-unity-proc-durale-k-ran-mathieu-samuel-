@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class code_test : MonoBehaviour
+public class code_final_spawner : MonoBehaviour
 {
     // Les 3 prefabs disponibles
     public GameObject cube_plaine;
@@ -28,7 +28,9 @@ public class code_test : MonoBehaviour
     [SerializeField] int nb_max_desert = 10;
     [SerializeField] int nb_max_monragne = 5;
 
-    //ce système pas terminer devait permetre de d'augmenter le 
+    //ce système pas terminer devait permetre de d'augmenter le taux de chance ,
+    //pour avoir le même bloc cote a cote et donc il permettrais d'agrandir les biome jusqu'au nombre max de bloc
+    //et enlèverais en partie les block de biome different qui spawn dans une zonne uniquement fait d'un seul bloc
     [SerializeField] float augement_meme_biome = 1.5f;
     void Start()
     {

@@ -1,51 +1,144 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class code_test2_0 : MonoBehaviour
+public class code_test : MonoBehaviour
 {
-    // Les 3 prefabs disponibles
+    // ============================================================
+    // PREFABS
+    // ============================================================
+
     public GameObject cube_plaine;
     public GameObject cube_desert;
     public GameObject cube_montagne;
 
-    // Règles des biomes
+
+    // ============================================================
+    // REGLES DES BIOMES
+    // ============================================================
+
+    // 0 = Plaine
+    // 1 = Désert
+    // 2 = Montagne
+
     List<int>[] regles = new List<int>[3];
 
-    // Taille de la grille
-    [SerializeField] int taille = 100;
 
-    // Une case de la grille
+    // ============================================================
+    // TAILLE DE LA GRILLE
+    // ============================================================
+
+    [SerializeField] int taille = 50;
+
     private List<int>[,] grille;
 
-    // Nombre minimum de chaque biome
+
+    // ============================================================
+    // MINIMUM DE CHAQUE BIOME
+    // ============================================================
+
     [SerializeField] int nb_min_plaine = 10;
     [SerializeField] int nb_min_desert = 10;
     [SerializeField] int nb_min_montagne = 5;
 
-    // Nombre maximum de chaque biome
-    [SerializeField] int nb_max_plaine = 100;
-    [SerializeField] int nb_max_desert = 20;
-    [SerializeField] int nb_max_montagne = 20;
 
-    // Poids donné au même biome qu'une case voisine
+    // ============================================================
+    // MAXIMUM DE CHAQUE BIOME
+    // ============================================================
+
+    [SerializeField] int nb_max_plaine = 1000;
+    [SerializeField] int nb_max_desert = 1000;
+    [SerializeField] int nb_max_montagne = 500;
+
+
+    // ============================================================
+    // POIDS DU MEME BIOME
+    // ============================================================
+
+    // Plus cette valeur est grande,
+    // plus un biome a tendance à continuer
+    // lorsqu'il est entouré du même biome.
+
     [SerializeField] float poidsMemeBiome = 1.5f;
 
-    // Nombre de blocs actuellement créés pour chaque biome
+
+    // ============================================================
+    // EVITE LES PETITS ILOTS
+    // ============================================================
+
+    // Nombre minimum de voisins nécessaires
+    // pour forcer le biome majoritaire.
+
+    [SerializeField] int voisinsMinimumPourForcer = 2;
+
+
+    // ============================================================
+    // TRANSITION DE HAUTEUR ENTRE LES BIOMES
+    // ============================================================
+
+    // 0 = changement brutal
+    // 1 = transition très forte
+
+    [SerializeField]
+    [Range(0f, 1f)]
+    float douceurTransition = 0.3f;
+
+
+    // ============================================================
+    // DISTANCE DE TRANSITION
+    // ============================================================
+
+    // Nombre de cases utilisées pour adoucir
+    // la différence de hauteur entre deux biomes.
+
+    [SerializeField] int distanceTransition = 3;
+
+
+    // ============================================================
+    // HAUTEUR DES BIOMES
+    // ============================================================
+
+    [SerializeField] float hauteurPlaine = 2.5f;
+    [SerializeField] float hauteurDesert = 1.5f;
+    [SerializeField] float hauteurMontagne = 6.8f;
+
+
+    // ============================================================
+    // VARIATION DU TERRAIN
+    // ============================================================
+
+    [SerializeField] float taillePerlin = 0.1f;
+
+
+    // ============================================================
+    // NOMBRE DE BLOCS ACTUELLEMENT CREES
+    // ============================================================
+
     int[] nombreBiomes = new int[3];
 
+
+    // ============================================================
+    // START
+    // ============================================================
 
     void Start()
     {
         // Définir la taille de la grille
         grille = new List<int>[taille, taille];
 
-        // Définit ce qui peut spawn à côté de quoi
+
+        // --------------------------------------------------------
+        // REGLES DE VOISINAGE
+        // --------------------------------------------------------
+
         regles[0] = new List<int> { 0, 1, 2 }; // Plaine
         regles[1] = new List<int> { 0, 1 };    // Désert
         regles[2] = new List<int> { 0, 2 };    // Montagne
 
 
-        // Chaque case peut commencer avec les 3 biomes
+        // --------------------------------------------------------
+        // INITIALISATION DE LA GRILLE
+        // --------------------------------------------------------
+
         for (int x = 0; x < taille; x++)
         {
             for (int z = 0; z < taille; z++)
@@ -55,19 +148,26 @@ public class code_test2_0 : MonoBehaviour
         }
 
 
-        // Crée une sélection de possibilités de bloc
+        // --------------------------------------------------------
+        // GENERATION
+        // --------------------------------------------------------
+
         while (true)
         {
             Vector2Int caseChoisie = trouver_case_moins_possibilites();
 
-            // Pour arrêter de créer
+
+            // Plus aucune case à choisir
             if (caseChoisie.x == -1)
                 break;
 
 
-            // Choisir les biomes parmi les possibilités
-            List<int> possibilites = grille[caseChoisie.x, caseChoisie.y];
+            // Récupère les possibilités
+            List<int> possibilites =
+                grille[caseChoisie.x, caseChoisie.y];
 
+
+            // Choisit le biome
             int biome = choisir_biome(
                 caseChoisie.x,
                 caseChoisie.y,
@@ -75,151 +175,245 @@ public class code_test2_0 : MonoBehaviour
             );
 
 
-            // La case est choisie
-            grille[caseChoisie.x, caseChoisie.y] = new List<int> { biome };
+            // La case devient ce biome
+            grille[caseChoisie.x, caseChoisie.y] =
+                new List<int> { biome };
 
 
-            // Ajouter le biome au compteur
+            // Augmente le compteur
             nombreBiomes[biome]++;
 
 
-            // Dit le type de classe aux autres blocs
-            propager(caseChoisie.x, caseChoisie.y);
+            // Propagation des règles
+            propager(
+                caseChoisie.x,
+                caseChoisie.y
+            );
         }
 
 
-        // Appelle la fonction pour créer les blocs
+        // --------------------------------------------------------
+        // CREATION DU MONDE
+        // --------------------------------------------------------
+
         creer_monde();
     }
 
 
-    // Cherche la case qui a le moins de possibilités
+    // ============================================================
+    // CHERCHE LA CASE AVEC LE MOINS DE POSSIBILITES
+    // ============================================================
+
     Vector2Int trouver_case_moins_possibilites()
     {
         int minimum = 999;
-        Vector2Int meilleure_case = new Vector2Int(-1, -1);
+
+        Vector2Int meilleure_case =
+            new Vector2Int(-1, -1);
+
 
         for (int x = 0; x < taille; x++)
         {
             for (int z = 0; z < taille; z++)
             {
-                int nombre = grille[x, z].Count;
+                int nombre =
+                    grille[x, z].Count;
 
-                // Si une case a 1 possibilité, elle est déjà terminée
+
+                // Une case avec 1 possibilité
+                // est déjà terminée.
+
                 if (nombre > 1 && nombre < minimum)
                 {
                     minimum = nombre;
-                    meilleure_case = new Vector2Int(x, z);
+
+                    meilleure_case =
+                        new Vector2Int(x, z);
                 }
             }
         }
+
 
         return meilleure_case;
     }
 
 
-    // Choisit le biome en utilisant les minimums, maximums et poids
-    int choisir_biome(int x, int z, List<int> possibilites)
+    // ============================================================
+    // CHOISIT LE BIOME
+    // ============================================================
+
+    int choisir_biome(
+        int x,
+        int z,
+        List<int> possibilites)
     {
-        List<int> choix = new List<int>();
+        // --------------------------------------------------------
+        // 1. RETIRE LES BIOMES AYANT ATTEINT LEUR MAXIMUM
+        // --------------------------------------------------------
 
+        List<int> choix =
+            new List<int>();
 
-        // ------------------------------------------------
-        // 1. Retirer les biomes qui ont atteint leur maximum
-        // ------------------------------------------------
 
         foreach (int biome in possibilites)
         {
-            if (nombreBiomes[biome] < obtenir_maximum(biome))
+            if (nombreBiomes[biome] <
+                obtenir_maximum(biome))
             {
                 choix.Add(biome);
             }
         }
 
 
-        // Si aucun biome n'est disponible à cause des maximums
-        // on utilise les possibilités originales
+        // Sécurité :
+        // si tous les biomes ont atteint leur maximum,
+        // on garde les possibilités originales.
+
         if (choix.Count == 0)
         {
-            choix = new List<int>(possibilites);
+            choix =
+                new List<int>(possibilites);
         }
 
 
-        // ------------------------------------------------
-        // 2. Vérifier les biomes qui n'ont pas atteint
-        //    leur minimum
-        // ------------------------------------------------
+        // --------------------------------------------------------
+        // 2. CHERCHE LES BIOMES SOUS LEUR MINIMUM
+        // --------------------------------------------------------
 
-        List<int> biomesSousMinimum = new List<int>();
+        List<int> biomesSousMinimum =
+            new List<int>();
+
 
         foreach (int biome in choix)
         {
-            if (nombreBiomes[biome] < obtenir_minimum(biome))
+            if (nombreBiomes[biome] <
+                obtenir_minimum(biome))
             {
                 biomesSousMinimum.Add(biome);
             }
         }
 
 
-        // S'il y a des biomes sous leur minimum,
-        // on donne la priorité à ceux-ci
+        // Si un biome est encore sous son minimum,
+        // on lui donne la priorité.
+
         if (biomesSousMinimum.Count > 0)
         {
-            choix = biomesSousMinimum;
+            choix =
+                biomesSousMinimum;
         }
 
 
-        // ------------------------------------------------
-        // 3. Calculer les poids
-        // ------------------------------------------------
+        // --------------------------------------------------------
+        // 3. CHERCHE LE BIOME DOMINANT AUTOUR
+        // --------------------------------------------------------
 
-        List<float> poids = new List<float>();
+        int biomeDominant =
+            trouver_biome_dominant_autour(
+                x,
+                z,
+                choix
+            );
+
+
+        // --------------------------------------------------------
+        // 4. EVITE LES PETITS ILOTS
+        // --------------------------------------------------------
+
+        if (biomeDominant != -1)
+        {
+            int nombreVoisins =
+                compter_voisins_biome(
+                    x,
+                    z,
+                    biomeDominant
+                );
+
+
+            // Si suffisamment de voisins sont du même biome,
+            // on force ce biome.
+
+            if (nombreVoisins >=
+                voisinsMinimumPourForcer)
+            {
+                if (nombreBiomes[biomeDominant] <
+                    obtenir_maximum(biomeDominant))
+                {
+                    return biomeDominant;
+                }
+            }
+        }
+
+
+        // --------------------------------------------------------
+        // 5. CALCUL DES POIDS
+        // --------------------------------------------------------
+
+        List<float> poids =
+            new List<float>();
+
 
         foreach (int biome in choix)
         {
             float poidsBiome = 1f;
 
 
+            // ----------------------------------------------------
             // Gauche
+            // ----------------------------------------------------
+
             if (x > 0)
             {
                 if (grille[x - 1, z].Count == 1 &&
                     grille[x - 1, z][0] == biome)
                 {
-                    poidsBiome *= poidsMemeBiome;
+                    poidsBiome *=
+                        poidsMemeBiome;
                 }
             }
 
 
+            // ----------------------------------------------------
             // Droite
+            // ----------------------------------------------------
+
             if (x < taille - 1)
             {
                 if (grille[x + 1, z].Count == 1 &&
                     grille[x + 1, z][0] == biome)
                 {
-                    poidsBiome *= poidsMemeBiome;
+                    poidsBiome *=
+                        poidsMemeBiome;
                 }
             }
 
 
+            // ----------------------------------------------------
             // Derrière
+            // ----------------------------------------------------
+
             if (z > 0)
             {
                 if (grille[x, z - 1].Count == 1 &&
                     grille[x, z - 1][0] == biome)
                 {
-                    poidsBiome *= poidsMemeBiome;
+                    poidsBiome *=
+                        poidsMemeBiome;
                 }
             }
 
 
+            // ----------------------------------------------------
             // Devant
+            // ----------------------------------------------------
+
             if (z < taille - 1)
             {
                 if (grille[x, z + 1].Count == 1 &&
                     grille[x, z + 1][0] == biome)
                 {
-                    poidsBiome *= poidsMemeBiome;
+                    poidsBiome *=
+                        poidsMemeBiome;
                 }
             }
 
@@ -228,11 +422,12 @@ public class code_test2_0 : MonoBehaviour
         }
 
 
-        // ------------------------------------------------
-        // 4. Choix aléatoire pondéré
-        // ------------------------------------------------
+        // --------------------------------------------------------
+        // 6. CHOIX ALEATOIRE PONDERE
+        // --------------------------------------------------------
 
         float totalPoids = 0f;
+
 
         foreach (float poidsBiome in poids)
         {
@@ -240,12 +435,19 @@ public class code_test2_0 : MonoBehaviour
         }
 
 
-        float hasard = Random.Range(0f, totalPoids);
+        float hasard =
+            Random.Range(
+                0f,
+                totalPoids
+            );
 
 
-        for (int i = 0; i < choix.Count; i++)
+        for (int i = 0;
+             i < choix.Count;
+             i++)
         {
             hasard -= poids[i];
+
 
             if (hasard <= 0)
             {
@@ -259,7 +461,146 @@ public class code_test2_0 : MonoBehaviour
     }
 
 
-    // Retourne le minimum du biome
+    // ============================================================
+    // TROUVE LE BIOME MAJORITAIRE AUTOUR
+    // ============================================================
+
+    int trouver_biome_dominant_autour(
+        int x,
+        int z,
+        List<int> possibilites)
+    {
+        int[] compteur =
+            new int[3];
+
+
+        // Gauche
+        if (x > 0 &&
+            grille[x - 1, z].Count == 1)
+        {
+            int biome =
+                grille[x - 1, z][0];
+
+            if (possibilites.Contains(biome))
+                compteur[biome]++;
+        }
+
+
+        // Droite
+        if (x < taille - 1 &&
+            grille[x + 1, z].Count == 1)
+        {
+            int biome =
+                grille[x + 1, z][0];
+
+            if (possibilites.Contains(biome))
+                compteur[biome]++;
+        }
+
+
+        // Derrière
+        if (z > 0 &&
+            grille[x, z - 1].Count == 1)
+        {
+            int biome =
+                grille[x, z - 1][0];
+
+            if (possibilites.Contains(biome))
+                compteur[biome]++;
+        }
+
+
+        // Devant
+        if (z < taille - 1 &&
+            grille[x, z + 1].Count == 1)
+        {
+            int biome =
+                grille[x, z + 1][0];
+
+            if (possibilites.Contains(biome))
+                compteur[biome]++;
+        }
+
+
+        // Recherche du plus présent
+
+        int biomeDominant = -1;
+        int maximum = 0;
+
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (compteur[i] > maximum)
+            {
+                maximum =
+                    compteur[i];
+
+                biomeDominant =
+                    i;
+            }
+        }
+
+
+        return biomeDominant;
+    }
+
+
+    // ============================================================
+    // COMPTE LES VOISINS D'UN BIOME
+    // ============================================================
+
+    int compter_voisins_biome(
+        int x,
+        int z,
+        int biomeRecherche)
+    {
+        int nombre = 0;
+
+
+        // Gauche
+        if (x > 0 &&
+            grille[x - 1, z].Count == 1 &&
+            grille[x - 1, z][0] == biomeRecherche)
+        {
+            nombre++;
+        }
+
+
+        // Droite
+        if (x < taille - 1 &&
+            grille[x + 1, z].Count == 1 &&
+            grille[x + 1, z][0] == biomeRecherche)
+        {
+            nombre++;
+        }
+
+
+        // Derrière
+        if (z > 0 &&
+            grille[x, z - 1].Count == 1 &&
+            grille[x, z - 1][0] == biomeRecherche)
+        {
+            nombre++;
+        }
+
+
+        // Devant
+        if (z < taille - 1 &&
+            grille[x, z + 1].Count == 1 &&
+            grille[x, z + 1][0] == biomeRecherche)
+        {
+            nombre++;
+        }
+
+
+        return nombre;
+    }
+
+
+    // ============================================================
+    // MINIMUM DU BIOME
+    // ============================================================
+
     int obtenir_minimum(int biome)
     {
         if (biome == 0)
@@ -272,7 +613,10 @@ public class code_test2_0 : MonoBehaviour
     }
 
 
-    // Retourne le maximum du biome
+    // ============================================================
+    // MAXIMUM DU BIOME
+    // ============================================================
+
     int obtenir_maximum(int biome)
     {
         if (biome == 0)
@@ -285,107 +629,420 @@ public class code_test2_0 : MonoBehaviour
     }
 
 
-    // Vérifie les autres possibilités et supprime
-    // celles qui ne peuvent pas se lier
+    // ============================================================
+    // PROPAGATION
+    // ============================================================
+
     void propager(int x, int z)
     {
-        int biome = grille[x, z][0];
+        int biome =
+            grille[x, z][0];
 
 
         // Gauche
         if (x > 0)
         {
-            appliquer_regle(x - 1, z, biome);
+            appliquer_regle(
+                x - 1,
+                z,
+                biome
+            );
         }
 
 
         // Droite
         if (x < taille - 1)
         {
-            appliquer_regle(x + 1, z, biome);
+            appliquer_regle(
+                x + 1,
+                z,
+                biome
+            );
         }
 
 
         // Derrière
         if (z > 0)
         {
-            appliquer_regle(x, z - 1, biome);
+            appliquer_regle(
+                x,
+                z - 1,
+                biome
+            );
         }
 
 
         // Devant
         if (z < taille - 1)
         {
-            appliquer_regle(x, z + 1, biome);
+            appliquer_regle(
+                x,
+                z + 1,
+                biome
+            );
         }
     }
 
 
-    // Lie les biomes entre eux
-    void appliquer_regle(int x, int z, int biomeVoisin)
+    // ============================================================
+    // APPLIQUE UNE REGLE DE VOISINAGE
+    // ============================================================
+
+    void appliquer_regle(
+        int x,
+        int z,
+        int biomeVoisin)
     {
-        List<int> possibilites = grille[x, z];
-
-        // Récupère les biomes autorisés autour du biome actuel
-        List<int> biomesOkspawn = regles[biomeVoisin];
+        List<int> possibilites =
+            grille[x, z];
 
 
-        // Regarde les autres possibilités
-        for (int p = possibilites.Count - 1; p >= 0; p--)
+        List<int> biomesOkspawn =
+            regles[biomeVoisin];
+
+
+        for (int p =
+             possibilites.Count - 1;
+             p >= 0;
+             p--)
         {
-            // Si le biome n'est pas compatible
-            if (!biomesOkspawn.Contains(possibilites[p]))
+            if (!biomesOkspawn.Contains(
+                possibilites[p]))
             {
-                // On le retire
                 possibilites.RemoveAt(p);
             }
         }
     }
 
 
-    // Crée les blocs
+    // ============================================================
+    // HAUTEUR NORMALE D'UN BIOME
+    // ============================================================
+
+    float obtenir_hauteur_biome(
+        int x,
+        int z,
+        int biome)
+    {
+        float bruit =
+            Mathf.PerlinNoise(
+                x * taillePerlin,
+                z * taillePerlin
+            );
+
+
+        if (biome == 0)
+        {
+            // Plaine
+            return bruit * hauteurPlaine;
+        }
+
+
+        if (biome == 1)
+        {
+            // Désert
+            return bruit * hauteurDesert;
+        }
+
+
+        // Montagne
+        return bruit * hauteurMontagne;
+    }
+
+
+    // ============================================================
+    // DISTANCE PAR RAPPORT A UN AUTRE BIOME
+    // ============================================================
+
+    int trouver_distance_biome_different(
+        int x,
+        int z,
+        int biome)
+    {
+        int meilleureDistance =
+            distanceTransition + 1;
+
+
+        // On cherche autour de la case
+        // dans la zone de transition.
+
+        for (int dx =
+             -distanceTransition;
+             dx <= distanceTransition;
+             dx++)
+        {
+            for (int dz =
+                 -distanceTransition;
+                 dz <= distanceTransition;
+                 dz++)
+            {
+                if (dx == 0 && dz == 0)
+                    continue;
+
+
+                int nouveauX =
+                    x + dx;
+
+                int nouveauZ =
+                    z + dz;
+
+
+                // Hors de la grille
+                if (nouveauX < 0 ||
+                    nouveauX >= taille ||
+                    nouveauZ < 0 ||
+                    nouveauZ >= taille)
+                {
+                    continue;
+                }
+
+
+                // La case doit être terminée
+                if (grille[nouveauX, nouveauZ].Count != 1)
+                    continue;
+
+
+                int biomeVoisin =
+                    grille[nouveauX, nouveauZ][0];
+
+
+                // On cherche uniquement un autre biome
+                if (biomeVoisin != biome)
+                {
+                    int distance =
+                        Mathf.Abs(dx) +
+                        Mathf.Abs(dz);
+
+
+                    if (distance < meilleureDistance)
+                    {
+                        meilleureDistance =
+                            distance;
+                    }
+                }
+            }
+        }
+
+
+        return meilleureDistance;
+    }
+
+
+    // ============================================================
+    // HAUTEUR FINALE
+    // ============================================================
+
+    float obtenir_hauteur(
+        int x,
+        int z)
+    {
+        int biome =
+            grille[x, z][0];
+
+
+        // Hauteur normale
+        float hauteur =
+            obtenir_hauteur_biome(
+                x,
+                z,
+                biome
+            );
+
+
+        // Cherche à quelle distance se trouve
+        // un biome différent.
+
+        int distance =
+            trouver_distance_biome_different(
+                x,
+                z,
+                biome
+            );
+
+
+        // Aucun autre biome à proximité
+        if (distance >
+            distanceTransition)
+        {
+            return hauteur;
+        }
+
+
+        // --------------------------------------------------------
+        // FORCE DE LA TRANSITION
+        // --------------------------------------------------------
+
+        float transition =
+            1f -
+            ((float)distance /
+            (distanceTransition + 1));
+
+
+        // La transition est limitée
+        // par la douceur choisie.
+
+        transition *=
+            douceurTransition;
+
+
+        // --------------------------------------------------------
+        // CHERCHE UNE HAUTEUR MOYENNE DES BIOMES VOISINS
+        // --------------------------------------------------------
+
+        float somme =
+            0f;
+
+        int nombre =
+            0;
+
+
+        for (int dx =
+             -distanceTransition;
+             dx <= distanceTransition;
+             dx++)
+        {
+            for (int dz =
+                 -distanceTransition;
+                 dz <= distanceTransition;
+                 dz++)
+            {
+                if (dx == 0 && dz == 0)
+                    continue;
+
+
+                int nouveauX =
+                    x + dx;
+
+                int nouveauZ =
+                    z + dz;
+
+
+                if (nouveauX < 0 ||
+                    nouveauX >= taille ||
+                    nouveauZ < 0 ||
+                    nouveauZ >= taille)
+                {
+                    continue;
+                }
+
+
+                if (grille[nouveauX, nouveauZ].Count != 1)
+                    continue;
+
+
+                int biomeVoisin =
+                    grille[nouveauX, nouveauZ][0];
+
+
+                if (biomeVoisin != biome)
+                {
+                    somme +=
+                        obtenir_hauteur_biome(
+                            nouveauX,
+                            nouveauZ,
+                            biomeVoisin
+                        );
+
+                    nombre++;
+                }
+            }
+        }
+
+
+        if (nombre > 0)
+        {
+            float moyenne =
+                somme / nombre;
+
+
+            // Mélange entre la hauteur normale
+            // et celle du biome voisin.
+
+            hauteur =
+                Mathf.Lerp(
+                    hauteur,
+                    moyenne,
+                    transition
+                );
+        }
+
+
+        return hauteur;
+    }
+
+
+    // ============================================================
+    // CREATION DU MONDE
+    // ============================================================
+
     void creer_monde()
     {
         for (int x = 0; x < taille; x++)
         {
             for (int z = 0; z < taille; z++)
             {
-                int biome = grille[x, z][0];
+                int biome =
+                    grille[x, z][0];
 
 
-                float PerlinY = Mathf.PerlinNoise(
-                    x * 0.1f,
-                    z * 0.1f
-                );
+                // Calcule la hauteur
+                // avec les transitions.
+
+                float PerlinY =
+                    obtenir_hauteur(
+                        x,
+                        z
+                    );
 
 
-                GameObject prefab = null;
+                GameObject prefab =
+                    null;
 
+
+                // ------------------------------------------------
+                // PLAINE
+                // ------------------------------------------------
 
                 if (biome == 0)
                 {
-                    // Plaine
-                    PerlinY *= 2.5f;
-                    prefab = cube_plaine;
+                    prefab =
+                        cube_plaine;
                 }
+
+
+                // ------------------------------------------------
+                // DESERT
+                // ------------------------------------------------
+
                 else if (biome == 1)
                 {
-                    // Désert
-                    PerlinY *= -1.2f;
-                    prefab = cube_desert;
+                    prefab =
+                        cube_desert;
                 }
+
+
+                // ------------------------------------------------
+                // MONTAGNE
+                // ------------------------------------------------
+
                 else if (biome == 2)
                 {
-                    // Montagne
-                    PerlinY *= 6.8f;
-                    prefab = cube_montagne;
+                    prefab =
+                        cube_montagne;
                 }
 
 
-                // Crée le bloc
+                // ------------------------------------------------
+                // CREATION DU BLOC
+                // ------------------------------------------------
+
                 Instantiate(
                     prefab,
-                    new Vector3(z * 2, PerlinY, x * 2),
+                    new Vector3(
+                        z * 2,
+                        PerlinY,
+                        x * 2
+                    ),
                     Quaternion.identity
                 );
             }
