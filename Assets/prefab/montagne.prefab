@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6453323495546408977}
   - component: {fileID: 2530316244504456344}
   - component: {fileID: 8379987839954246986}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: part_haut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 3515715071614884698}
   - component: {fileID: 2954261253827977028}
   - component: {fileID: 2455641506747429539}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: part_bas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -233,7 +233,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 883664045031887312}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: montagne
   m_TagString: Untagged
   m_Icon: {fileID: 0}

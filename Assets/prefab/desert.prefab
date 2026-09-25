@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1673934999129379591}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: desert
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 1755197612970698273}
   - component: {fileID: 6887946763695228932}
   - component: {fileID: 3815169063036176093}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: part_haut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,7 +157,7 @@ GameObject:
   - component: {fileID: 2565976426556478828}
   - component: {fileID: 4511858991801270656}
   - component: {fileID: 6973520237666305396}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: part_bas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

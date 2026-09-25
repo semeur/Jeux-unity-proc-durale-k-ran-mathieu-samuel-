@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 942304971195476026}
   - component: {fileID: 6657205853293446998}
   - component: {fileID: 5971028520227113364}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: part_haut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3151103842858133807}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: plaine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,7 +157,7 @@ GameObject:
   - component: {fileID: 2210182150615957159}
   - component: {fileID: 4574865723937687464}
   - component: {fileID: 6709955069073652695}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: part_bas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
